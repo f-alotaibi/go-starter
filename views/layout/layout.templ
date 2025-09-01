@@ -1,0 +1,21 @@
+package layout
+
+import "github.com/f-alotaibi/go-starter/views/modules"
+
+templ Layout() {
+	<!DOCTYPE HTML>
+	<html class="dark">
+		<head>
+			<title>go-starter</title>
+			<link rel="stylesheet" href="/main.css"/>
+		</head>
+		<body class="min-h-screen">
+			<div class="h-full flex flex-col">
+                @modules.Navbar()
+				<main class="flex-1">
+					{ children... }
+				</main>
+			</div>
+		</body>
+	</html>
+}

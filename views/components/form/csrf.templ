@@ -1,0 +1,10 @@
+package form
+
+import (
+	"os"
+	_ "github.com/joho/godotenv/autoload"
+)
+
+templ CSRF() {
+	<input type="hidden" name={ os.Getenv("CSRF_KEY") } value={ ctx.Value(os.Getenv("CSRF_KEY")).(string) }/>
+}

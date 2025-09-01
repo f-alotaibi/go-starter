@@ -1,0 +1,80 @@
+package views
+
+import "github.com/f-alotaibi/go-starter/views/components/button"
+import "github.com/f-alotaibi/go-starter/views/components/input"
+import "github.com/f-alotaibi/go-starter/views/components/form"
+
+templ Login() {
+	<!DOCTYPE HTML>
+	<html class="dark">
+		<head>
+			<title>go-starter</title>
+			<link rel="stylesheet" href="/main.css"/>
+			<script src="/input.min.js"></script>
+		</head>
+		<body class="min-h-screen">
+			<div class="h-full flex flex-col">
+				<main class="flex-1">
+					<div class="flex flex-col justify-center items-center h-full pb-5">
+						<div class="mx-auto flex w-full flex-col justify-center px-5 pt-0 md:h-[unset] md:max-w-[50%] h-full lg:max-w-[50%] lg:px-6">
+							<div class="my-auto mb-auto mt-8 flex flex-col md:mt-[70px] w-[350px] max-w-[450px] mx-auto md:max-w-[450px] lg:mt-[130px] lg:max-w-[450px]">
+								<p class="text-[32px] font-bold">Sign In</p>
+								<p class="mb-2.5 mt-2.5 font-normal text-muted-foreground">Enter your username and password to sign in! </p>
+								<div class="relative my-4">
+									<div class="relative flex items-center py-1">
+										<div class="grow border-t border-input"></div>
+									</div>
+								</div>
+								<div>
+									<form novalidate="" action="/login" method="post" class="mb-4">
+										@form.CSRF()
+										<div class="grid gap-2">
+											<div class="grid gap-1">
+												<label for="user">Username</label>
+												@input.Input(input.Props{
+													ID:          "user",
+													Type:        input.TypeText,
+													Placeholder: "Username",
+													Name:        "user",
+													Class:       "py-6",
+												})
+												<label class="mt-2" for="password">Password</label>
+												@input.Input(input.Props{
+													ID:          "password",
+													Type:        input.TypePassword,
+													Placeholder: "Password",
+													Name:        "passwd",
+													Class:       "py-6",
+												})
+											</div>
+											@button.Button(button.Props{
+												Type:      "submit",
+												Variant:   button.VariantDefault,
+												Class:     "mt-6 py-6 text-base",
+												FullWidth: true,
+												Size:      button.SizeLg,
+											}) {
+												Sign in
+											}
+										</div>
+									</form>
+									<div class="relative my-4">
+										<div class="relative flex items-center py-1">
+											<div class="grow border-t border-input"></div>
+										</div>
+									</div>
+									<p>
+										<a href="/forgot_password" class="font-medium text-white text-sm">Forgot your password?</a>
+									</p>
+									<p>
+										<a href="/signup" class="font-medium text-white text-sm">Don't have an account? Sign up</a>
+									</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</main>
+			</div>
+		</body>
+	</html>
+}

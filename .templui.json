@@ -1,0 +1,7 @@
+{
+  "componentsDir": "views/components",
+  "utilsDir": "utils",
+  "moduleName": "github.com/f-alotaibi/go-starter",
+  "jsDir": "assets/public",
+  "jsPublicPath": "assets/public"
+}

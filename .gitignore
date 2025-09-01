@@ -1,0 +1,4 @@
+gpack/
+*_templ.go
+tmp/
+database.db
