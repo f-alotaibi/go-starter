@@ -12,7 +12,7 @@ func AuthMiddlware() echo.MiddlewareFunc {
 		return func(c echo.Context) error {
 			xsrf, err := c.Cookie("XSRF-TOKEN")
 			if err != nil {
-				return c.String(http.StatusUnauthorized, "missing token")
+				return c.String(http.StatusUnauthorized, "unauthorized")
 			}
 			c.Request().Header.Set("X-XSRF-TOKEN", xsrf.Value)
 			return next(c)
