@@ -75,7 +75,7 @@ func main() {
 		},
 	}))
 
-	e.Use(middlewares.CSRFToContext())
+	e.Use(middlewares.InjectCSRFToContext())
 
 	e.Static("/*", "assets/public")
 
