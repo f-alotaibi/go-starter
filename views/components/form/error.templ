@@ -1,0 +1,20 @@
+package form
+
+import "context"
+
+// Checks for an error in the context 
+templ Error(key string) {
+    {{ errors := ctx.Value("errors").(map[string]string) }}
+    if _, ok := errors[key]; ok {
+        { children... }
+    }
+}
+
+// Helper function
+func ErrorMessage(ctx context.Context, key string) string {
+    errors := ctx.Value("errors").(map[string]string)
+    if v, ok := errors[key]; ok && v != "" {
+        return v
+    }
+    return ""
+}

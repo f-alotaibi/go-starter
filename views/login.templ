@@ -11,6 +11,7 @@ templ Login() {
 			<title>go-starter</title>
 			<link rel="stylesheet" href="/main.css"/>
 			<script src="/input.min.js"></script>
+			<script src="/label.min.js"></script>
 		</head>
 		<body class="min-h-screen">
 			<div class="h-full flex flex-col">
@@ -28,24 +29,66 @@ templ Login() {
 								<div>
 									<form novalidate="" action="/login" method="post" class="mb-4">
 										@form.CSRF()
+										@form.Error("result") {
+											@form.Message(form.MessageProps{
+												Variant: form.MessageVariantError,
+											}) {
+												{ form.ErrorMessage(ctx, "result") }
+											}
+										}
 										<div class="grid gap-2">
 											<div class="grid gap-1">
-												<label for="user">Username</label>
-												@input.Input(input.Props{
-													ID:          "user",
-													Type:        input.TypeText,
-													Placeholder: "Username",
-													Name:        "user",
-													Class:       "py-6",
-												})
-												<label class="mt-2" for="password">Password</label>
-												@input.Input(input.Props{
-													ID:          "password",
-													Type:        input.TypePassword,
-													Placeholder: "Password",
-													Name:        "passwd",
-													Class:       "py-6",
-												})
+												@form.Item() {
+													@form.Label(form.LabelProps{
+														For: "user",
+													}) {
+														Username
+													}
+													@form.Description() {
+														Enter your username to login.
+													}
+													@input.Input(input.Props{
+														ID:          "user",
+														Type:        input.TypeText,
+														Placeholder: "Username",
+														Name:        "user",
+														Class:       "py-6",
+														HasError:    form.ErrorMessage(ctx, "user") != "" || form.ErrorMessage(ctx, "result") != "",
+													})
+													@form.Error("user") {
+														@form.Message(form.MessageProps{
+															Variant: form.MessageVariantError,
+														}) {
+															{ form.ErrorMessage(ctx, "user") }
+														}
+													}
+												}
+												@form.Item() {
+													@form.Label(form.LabelProps{
+														For: "password",
+														Class: "mt-2",
+													}) {
+														Password
+													}
+													@form.Description() {
+														Enter password for that username.
+													}
+													@input.Input(input.Props{
+														ID:          "password",
+														Type:        input.TypePassword,
+														Placeholder: "Password",
+														Name:        "passwd",
+														Class:       "py-6",
+														HasError:    form.ErrorMessage(ctx, "passwd") != "" || form.ErrorMessage(ctx, "result") != "",
+													})
+													@form.Error("passwd") {
+														@form.Message(form.MessageProps{
+															Variant: form.MessageVariantError,
+														}) {
+															{ form.ErrorMessage(ctx, "passwd") }
+														}
+													}
+												}
 											</div>
 											@button.Button(button.Props{
 												Type:      "submit",

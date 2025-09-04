@@ -76,6 +76,7 @@ func main() {
 	}))
 
 	e.Use(middlewares.InjectCSRFToContext())
+	e.Use(middlewares.InjectFormErrorToContext())
 
 	e.Static("/*", "assets/public")
 
