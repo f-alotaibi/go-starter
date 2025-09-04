@@ -86,7 +86,7 @@ func main() {
 	e.GET("/login", loginController.Show)
 	e.POST("/login", loginController.Post)
 
-	// TODO: Enable /auth for OAuth2
+	// TODO: Enable /auth if you going to use any of go-pkgz/auth features
 	//e.Any("/auth/*", echo.WrapHandler(authHandler))
 
 	e.GET("/private", func(c echo.Context) error {
