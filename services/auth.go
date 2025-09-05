@@ -2,9 +2,12 @@ package services
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"time"
 
+	"github.com/f-alotaibi/go-starter/repositories"
+	"github.com/f-alotaibi/go-starter/utils"
 	"github.com/go-pkgz/auth/v2"
 	"github.com/go-pkgz/auth/v2/avatar"
 	"github.com/go-pkgz/auth/v2/logger"
@@ -36,8 +39,14 @@ func NewAuth(db *gorm.DB) (*auth.Service, error) {
 		Logger:         logger.Std,
 	})
 
-	authService.AddDirectProvider("users", provider.CredCheckerFunc(func(user, password string) (ok bool, err error) {
-		if user == "admin" && password == "admin" {
+	authService.AddDirectProvider("users", provider.CredCheckerFunc(func(username, password string) (ok bool, err error) {
+		b4 := time.Now()
+		user, err := repositories.FindUserByUsername(db, username)
+		if err != nil {
+			return false, err
+		}
+		if utils.VerifyPassword(password, string(user.Password)) {
+			log.Println("DATABASE QUERY: ", time.Now().Sub(b4))
 			return true, nil
 		}
 		return false, nil

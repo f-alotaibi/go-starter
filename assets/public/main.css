@@ -836,6 +836,11 @@
       line-height: var(--tw-leading, var(--text-sm--line-height));
     }
   }
+  .lg\:mt-\[90px\] {
+    @media (width >= 64rem) {
+      margin-top: 90px;
+    }
+  }
   .lg\:mt-\[130px\] {
     @media (width >= 64rem) {
       margin-top: 130px;

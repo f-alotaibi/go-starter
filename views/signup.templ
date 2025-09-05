@@ -1,0 +1,172 @@
+package views
+
+import "github.com/f-alotaibi/go-starter/views/components/button"
+import "github.com/f-alotaibi/go-starter/views/components/input"
+import "github.com/f-alotaibi/go-starter/views/components/form"
+
+templ Signup() {
+	<!DOCTYPE HTML>
+	<html class="dark">
+		<head>
+			<title>go-starter</title>
+			<link rel="stylesheet" href="/main.css"/>
+			<script src="/input.min.js"></script>
+			<script src="/label.min.js"></script>
+		</head>
+		<body class="min-h-screen">
+			<div class="h-full flex flex-col">
+				<main class="flex-1">
+					<div class="flex flex-col justify-center items-center h-full pb-5">
+						<div class="mx-auto flex w-full flex-col justify-center px-5 pt-0 md:h-[unset] md:max-w-[50%] h-full lg:max-w-[50%] lg:px-6">
+							<div class="my-auto mb-auto mt-8 flex flex-col md:mt-[70px] w-[350px] max-w-[450px] mx-auto md:max-w-[450px] lg:mt-[90px] lg:max-w-[450px]">
+								<p class="text-[32px] font-bold">Sign up</p>
+								<p class="mb-2.5 mt-2.5 font-normal text-muted-foreground">Enter the following to Create your account.</p>
+								<div class="relative my-4">
+									<div class="relative flex items-center py-1">
+										<div class="grow border-t border-input"></div>
+									</div>
+								</div>
+								<div>
+									<form novalidate="" action="/signup" method="post" class="mb-4">
+										@form.CSRF()
+										@form.Error("result") {
+											@form.Message(form.MessageProps{
+												Variant: form.MessageVariantError,
+											}) {
+												{ form.ErrorMessage(ctx, "result") }
+											}
+										}
+										<div class="grid gap-2">
+											<div class="grid gap-1">
+												@form.Item() {
+													@form.Label(form.LabelProps{
+														For: "user",
+													}) {
+														Username
+													}
+													@form.Description() {
+														Enter your username.
+													}
+													@input.Input(input.Props{
+														ID:          "user",
+														Type:        input.TypeText,
+														Placeholder: "Username",
+														Name:        "user",
+														Class:       "py-6",
+														HasError:    form.ErrorMessage(ctx, "user") != "" || form.ErrorMessage(ctx, "result") != "",
+													})
+													@form.Error("user") {
+														@form.Message(form.MessageProps{
+															Variant: form.MessageVariantError,
+														}) {
+															{ form.ErrorMessage(ctx, "user") }
+														}
+													}
+												}
+												@form.Item() {
+													@form.Label(form.LabelProps{
+														For:   "email",
+														Class: "mt-2",
+													}) {
+														Email
+													}
+													@form.Description() {
+														Enter your email address.
+													}
+													@input.Input(input.Props{
+														ID:          "email",
+														Type:        input.TypeEmail,
+														Placeholder: "user@example.com",
+														Name:        "email",
+														Class:       "py-6",
+														HasError:    form.ErrorMessage(ctx, "email") != "" || form.ErrorMessage(ctx, "result") != "",
+													})
+													@form.Error("email") {
+														@form.Message(form.MessageProps{
+															Variant: form.MessageVariantError,
+														}) {
+															{ form.ErrorMessage(ctx, "email") }
+														}
+													}
+												}
+												@form.Item() {
+													@form.Label(form.LabelProps{
+														For:   "password",
+														Class: "mt-2",
+													}) {
+														Password
+													}
+													@form.Description() {
+														Enter password for that username.
+													}
+													@input.Input(input.Props{
+														ID:          "password",
+														Type:        input.TypePassword,
+														Placeholder: "Password",
+														Name:        "passwd",
+														Class:       "py-6",
+														HasError:    form.ErrorMessage(ctx, "passwd") != "" || form.ErrorMessage(ctx, "result") != "",
+													})
+													@form.Error("passwd") {
+														@form.Message(form.MessageProps{
+															Variant: form.MessageVariantError,
+														}) {
+															{ form.ErrorMessage(ctx, "passwd") }
+														}
+													}
+												}
+												@form.Item() {
+													@form.Label(form.LabelProps{
+														For:   "passwd_confirm",
+														Class: "mt-2",
+													}) {
+														Password Confirmation
+													}
+													@form.Description() {
+														Enter password again.
+													}
+													@input.Input(input.Props{
+														ID:          "passwd_confirm",
+														Type:        input.TypePassword,
+														Placeholder: "Password Confirmation",
+														Name:        "passwd_confirm",
+														Class:       "py-6",
+														HasError:    form.ErrorMessage(ctx, "passwd_confirm") != "" || form.ErrorMessage(ctx, "result") != "",
+													})
+													@form.Error("passwd_confirm") {
+														@form.Message(form.MessageProps{
+															Variant: form.MessageVariantError,
+														}) {
+															{ form.ErrorMessage(ctx, "passwd_confirm") }
+														}
+													}
+												}
+											</div>
+											@button.Button(button.Props{
+												Type:      "submit",
+												Variant:   button.VariantDefault,
+												Class:     "mt-6 py-6 text-base",
+												FullWidth: true,
+												Size:      button.SizeLg,
+											}) {
+												Sign up
+											}
+										</div>
+									</form>
+									<div class="relative my-4">
+										<div class="relative flex items-center py-1">
+											<div class="grow border-t border-input"></div>
+										</div>
+									</div>
+									<p>
+										<a href="/login" class="font-medium text-white text-sm">Already have an account? Sign in</a>
+									</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</main>
+			</div>
+		</body>
+	</html>
+}

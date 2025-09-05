@@ -6,6 +6,7 @@ package utils
 import (
 	"context"
 	"reflect"
+	"unicode"
 
 	"github.com/go-playground/locales/en"
 	ut "github.com/go-playground/universal-translator"
@@ -38,6 +39,31 @@ func ValidateStruct(s any) (map[string]string, bool) {
 			return fld.Name
 		}
 		return name
+	})
+	validate.RegisterValidation("password", func(fl validator.FieldLevel) bool {
+		password := fl.Field().String()
+		var hasUpper, hasLower, hasDigit, hasSpecial bool
+
+		for _, ch := range password {
+			switch {
+			case unicode.IsUpper(ch):
+				hasUpper = true
+			case unicode.IsLower(ch):
+				hasLower = true
+			case unicode.IsDigit(ch):
+				hasDigit = true
+			case unicode.IsPunct(ch) || unicode.IsSymbol(ch):
+				hasSpecial = true
+			}
+		}
+
+		return hasUpper && hasLower && hasDigit && hasSpecial
+	})
+	validate.RegisterTranslation("password", ENTranslation, func(ut ut.Translator) error {
+		return ut.Add("password", "{0} must contain at least 1 uppercase, 1 lowercase, 1 number, and 1 special character", true)
+	}, func(ut ut.Translator, fe validator.FieldError) string {
+		t, _ := ut.T("password", fe.Field())
+		return t
 	})
 	err := validate.Struct(s)
 	if err != nil {

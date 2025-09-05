@@ -17,10 +17,18 @@ import (
 	"go.uber.org/zap"
 	"go.uber.org/zap/exp/zapslog"
 
+	_ "net/http/pprof"
+
 	_ "github.com/joho/godotenv/autoload"
 )
 
 func main() {
+	if os.Getenv("APP_ENV") == "dev" {
+		log.Println("Enabling pprof for profiling")
+		go func() {
+			log.Println(http.ListenAndServe("127.0.0.1:6060", nil))
+		}()
+	}
 	zapLogger := zap.Must(zap.NewDevelopment())
 	defer zapLogger.Sync()
 	slog.SetDefault(slog.New(zapslog.NewHandler(zapLogger.Core())))
@@ -85,6 +93,9 @@ func main() {
 	loginController := controllers.NewLoginController(authService)
 	e.GET("/login", loginController.Show)
 	e.POST("/login", loginController.Post)
+	signupController := controllers.NewSignupController(db, authService)
+	e.GET("/signup", signupController.Show)
+	e.POST("/signup", signupController.Post)
 
 	// TODO: Enable /auth if you going to use any of go-pkgz/auth features
 	//e.Any("/auth/*", echo.WrapHandler(authHandler))

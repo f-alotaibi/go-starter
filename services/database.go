@@ -6,6 +6,7 @@ import (
 	"os"
 	"sync"
 
+	"github.com/f-alotaibi/go-starter/models"
 	"github.com/glebarez/sqlite"
 	"github.com/go-gorm/caches/v4"
 	"gorm.io/driver/mysql"
@@ -65,6 +66,8 @@ func NewDB() (*gorm.DB, error) {
 	if err != nil {
 		return nil, err
 	}
+
+	db.AutoMigrate(&models.User{})
 
 	return db, err
 }

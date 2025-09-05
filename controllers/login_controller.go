@@ -1,7 +1,9 @@
 package controllers
 
 import (
+	"log"
 	"net/http"
+	"time"
 
 	"github.com/f-alotaibi/go-starter/utils"
 	"github.com/f-alotaibi/go-starter/views"
@@ -53,7 +55,9 @@ func (c *LoginController) Post(ctx echo.Context) error {
 	crw := &captureWriter{
 		headers: make(http.Header),
 	}
+	b4 := time.Now()
 	provider.LoginHandler(crw, ctx.Request())
+	log.Println("LOGIN: ", time.Now().Sub(b4))
 
 	if crw.status != 0 {
 		errors := map[string]string{
@@ -70,6 +74,7 @@ func (c *LoginController) Post(ctx echo.Context) error {
 	return ctx.Redirect(http.StatusFound, "/")
 }
 
+// A quick http.ResponseWriter implementation, only to grab the headers
 type captureWriter struct {
 	headers http.Header
 	status  int
