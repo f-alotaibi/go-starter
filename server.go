@@ -45,6 +45,11 @@ func main() {
 	authMiddleware := authService.Middleware()
 	//authHandler, _ := authService.Handlers()
 
+	mailClient, err := services.NewMailClient()
+	if err != nil {
+		panic(err)
+	}
+
 	e := echo.New()
 
 	e.Use(middleware.Gzip())
