@@ -6,6 +6,7 @@ import (
 	"os"
 	"time"
 
+	"github.com/f-alotaibi/go-starter/models/types"
 	"github.com/f-alotaibi/go-starter/repositories"
 	"github.com/f-alotaibi/go-starter/utils"
 	"github.com/go-pkgz/auth/v2"
@@ -37,6 +38,15 @@ func NewAuth(db *gorm.DB) (*auth.Service, error) {
 		XSRFCookieName: os.Getenv("AUTH_XSRF_NAME"),
 		XSRFHeaderKey:  fmt.Sprintf("X-%s", os.Getenv("AUTH_XSRF_NAME")),
 		Logger:         logger.Std,
+		ClaimsUpd: token.ClaimsUpdFunc(func(claims token.Claims) token.Claims {
+			user, err := repositories.FindUserByUsername(db, claims.User.Name)
+			if err != nil {
+				return token.Claims{}
+			}
+			claims.User.SetRole(string(user.Role))
+			claims.User.SetAdmin(user.Role == types.AdminRole)
+			return claims
+		}),
 	})
 
 	authService.AddDirectProvider("users", provider.CredCheckerFunc(func(username, password string) (ok bool, err error) {
