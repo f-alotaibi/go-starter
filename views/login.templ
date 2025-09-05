@@ -27,7 +27,7 @@ templ Login() {
 									</div>
 								</div>
 								<div>
-									<form novalidate="" action="/login" method="post" class="mb-4">
+									<form novalidate="" method="post" class="mb-4">
 										@form.CSRF()
 										@form.Error("result") {
 											@form.Message(form.MessageProps{

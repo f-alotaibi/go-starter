@@ -27,7 +27,7 @@ templ Signup() {
 									</div>
 								</div>
 								<div>
-									<form novalidate="" action="/signup" method="post" class="mb-4">
+									<form novalidate="" method="post" class="mb-4">
 										@form.CSRF()
 										@form.Error("result") {
 											@form.Message(form.MessageProps{
