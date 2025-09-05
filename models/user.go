@@ -1,11 +1,14 @@
 package models
 
-import "gorm.io/gorm"
+import (
+	"github.com/f-alotaibi/go-starter/models/types"
+	"gorm.io/gorm"
+)
 
 type User struct {
 	gorm.Model
-	Username string `gorm:"unique;not null"`
-	Email    string `gorm:"unique;not null"`
-	Password []byte `gorm:"not null"`
-	Role     Role   `gorm:"not null;default:0"`
+	Username string     `gorm:"unique;not null"`
+	Email    string     `gorm:"unique;not null"`
+	Password []byte     `gorm:"not null"`
+	Role     types.Role `gorm:"not null;default:user"`
 }
