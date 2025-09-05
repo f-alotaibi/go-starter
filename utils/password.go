@@ -2,7 +2,7 @@ package utils
 
 import "golang.org/x/crypto/bcrypt"
 
-const hashCost = 12
+const hashCost = bcrypt.DefaultCost
 
 // Generates bcrypt hash string for the given password.
 func HashPassword(password string) ([]byte, error) {
