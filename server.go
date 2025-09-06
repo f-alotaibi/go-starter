@@ -93,6 +93,8 @@ func main() {
 	e.Use(middlewares.InjectCSRFToContext())
 	e.Use(middlewares.InjectFormErrorToContext())
 
+	e.Use(echo.WrapMiddleware(authMiddleware.Trace))
+
 	e.Static("/*", "assets/public")
 
 	indexController := controllers.NewIndexController()
