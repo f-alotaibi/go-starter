@@ -43,9 +43,28 @@ func NewAuth(db *gorm.DB) (*auth.Service, error) {
 			if err != nil {
 				return token.Claims{}
 			}
+			claims.User.SetStrAttr("pwdReset", user.LastPasswordReset.Time.Format(time.RFC3339Nano))
 			claims.User.SetRole(string(user.Role))
 			claims.User.SetAdmin(user.Role == types.AdminRole)
 			return claims
+		}),
+		Validator: token.ValidatorFunc(func(_ string, claims token.Claims) bool {
+			user, err := repositories.FindUserByUsername(db, claims.User.Name)
+			if err != nil {
+				return false
+			}
+			log.Println(claims.User.Attributes)
+			claimLastPasswordResetTime, err := time.Parse(time.RFC3339Nano, claims.User.StrAttr("pwdReset"))
+			if err != nil {
+				log.Println("PARSE", err)
+				return false
+			}
+			if !claimLastPasswordResetTime.Equal(user.LastPasswordReset.Time) {
+				log.Println(claimLastPasswordResetTime, "NOT EQUAL", user.LastPasswordReset.Time)
+				log.Println("NOT EQUAL")
+				return false
+			}
+			return true
 		}),
 	})
 

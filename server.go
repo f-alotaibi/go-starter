@@ -50,6 +50,8 @@ func main() {
 		panic(err)
 	}
 
+	services.StartPasswordResetTokenCleanup(db)
+
 	e := echo.New()
 
 	e.Use(middleware.Gzip())
@@ -101,6 +103,12 @@ func main() {
 	signupController := controllers.NewSignupController(db, authService)
 	e.GET("/signup", signupController.Show)
 	e.POST("/signup", signupController.Post)
+	resetPasswordController := controllers.NewResetPasswordController(db, mailClient)
+	e.GET("/reset_password", resetPasswordController.Show)
+	e.POST("/reset_password", resetPasswordController.Post)
+	changePasswordController := controllers.NewChangePasswordController(db)
+	e.GET("/change_password", changePasswordController.Show)
+	e.POST("/change_password", changePasswordController.Post)
 
 	// TODO: Enable /auth if you going to use any of go-pkgz/auth features
 	//e.Any("/auth/*", echo.WrapHandler(authHandler))

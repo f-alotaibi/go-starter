@@ -8,6 +8,7 @@
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New',
     monospace;
     --color-red-500: oklch(63.7% 0.237 25.331);
+    --color-green-300: oklch(87.1% 0.15 154.449);
     --color-green-500: oklch(72.3% 0.219 149.579);
     --color-blue-500: oklch(62.3% 0.214 259.815);
     --color-gray-300: oklch(87.2% 0.01 258.338);
@@ -565,6 +566,9 @@
   .text-destructive {
     color: var(--destructive);
   }
+  .text-green-300 {
+    color: var(--color-green-300);
+  }
   .text-muted-foreground {
     color: var(--muted-foreground);
   }
@@ -844,6 +848,11 @@
   .lg\:mt-\[130px\] {
     @media (width >= 64rem) {
       margin-top: 130px;
+    }
+  }
+  .lg\:mt-\[180px\] {
+    @media (width >= 64rem) {
+      margin-top: 180px;
     }
   }
   .lg\:max-w-\[50\%\] {

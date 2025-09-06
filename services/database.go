@@ -68,6 +68,7 @@ func NewDB() (*gorm.DB, error) {
 	}
 
 	db.AutoMigrate(&models.User{})
+	db.AutoMigrate(&models.PasswordResetToken{})
 
 	return db, err
 }
