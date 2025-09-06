@@ -3,5 +3,5 @@
   "utilsDir": "utils",
   "moduleName": "github.com/f-alotaibi/go-starter",
   "jsDir": "assets/public",
-  "jsPublicPath": "assets/public"
+  "jsPublicPath": "/assets/public"
 }

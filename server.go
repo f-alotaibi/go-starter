@@ -95,7 +95,7 @@ func main() {
 
 	e.Use(echo.WrapMiddleware(authMiddleware.Trace))
 
-	e.Static("/*", "assets/public")
+	e.Static("/assets/public/*", "assets/public")
 
 	indexController := controllers.NewIndexController()
 	e.GET("/", indexController.Show)

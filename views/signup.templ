@@ -3,15 +3,16 @@ package views
 import "github.com/f-alotaibi/go-starter/views/components/button"
 import "github.com/f-alotaibi/go-starter/views/components/input"
 import "github.com/f-alotaibi/go-starter/views/components/form"
+import "github.com/f-alotaibi/go-starter/views/components/label"
 
 templ Signup() {
 	<!DOCTYPE HTML>
 	<html class="dark">
 		<head>
 			<title>go-starter</title>
-			<link rel="stylesheet" href="/main.css"/>
-			<script src="/input.min.js"></script>
-			<script src="/label.min.js"></script>
+			<link rel="stylesheet" href="/assets/public/main.css"/>
+			@input.Script()
+			@label.Script()
 		</head>
 		<body class="min-h-screen">
 			<div class="h-full flex flex-col">
