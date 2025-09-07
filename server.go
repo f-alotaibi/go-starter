@@ -124,5 +124,5 @@ func main() {
 		return c.String(http.StatusOK, "authed")
 	}, middlewares.AuthMiddlware(), echo.WrapMiddleware(authMiddleware.Auth))
 
-	e.Logger.Fatal(e.Start(fmt.Sprintf("127.0.0.1:%s", os.Getenv("HTTP_PORT"))))
+	e.Logger.Fatal(e.Start(fmt.Sprintf("0.0.0.0:%s", os.Getenv("HTTP_PORT"))))
 }
