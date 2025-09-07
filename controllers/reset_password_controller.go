@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"context"
-	"fmt"
 	"log"
 	"os"
 	"time"
@@ -11,6 +10,7 @@ import (
 	"github.com/f-alotaibi/go-starter/repositories"
 	"github.com/f-alotaibi/go-starter/utils"
 	"github.com/f-alotaibi/go-starter/views"
+	"github.com/f-alotaibi/go-starter/views/emails"
 	"github.com/labstack/echo/v4"
 	"github.com/wneessen/go-mail"
 	"gorm.io/gorm"
@@ -100,7 +100,7 @@ func (c *ResetPasswordController) Post(ctx echo.Context) error {
 		}
 
 		// TODO: Move to services/
-		go func(mailClient *mail.Client, email string, token string) {
+		go func(mailClient *mail.Client, user string, email string, token string) {
 			message := mail.NewMsg()
 			if err := message.From(os.Getenv("MAIL_RESET_PASSWORD_SENDER")); err != nil {
 				log.Fatalf("failed to set From address: %s", err)
@@ -108,12 +108,18 @@ func (c *ResetPasswordController) Post(ctx echo.Context) error {
 			if err := message.To(email); err != nil {
 				log.Fatalf("failed to set To address: %s", err)
 			}
-			message.Subject("Password reset")
-			message.SetBodyString(mail.TypeTextPlain, fmt.Sprintf("Expires in 5 minutes: localhost:8080/change_password?token=%s", token))
+
+			message.Subject("go-starter - Reset your password")
+			mailRawBody, err := utils.RenderToString(emails.ChangePassword(user, token), context.Background())
+			if err != nil {
+				log.Fatalf("failed to render mail view: %s", err)
+			}
+
+			message.SetBodyString(mail.TypeTextHTML, mailRawBody)
 			if err := mailClient.DialAndSend(message); err != nil {
 				log.Fatalf("failed to send mail: %s", err)
 			}
-		}(c.mailClient, user.Email, rawToken)
+		}(c.mailClient, user.Username, user.Email, rawToken)
 
 		log.Println(rawToken, hashedToken)
 	}
