@@ -20,7 +20,7 @@ COPY --from=build-stage /entrypoint /app/entrypoint
 COPY --from=build-stage /app/assets /app/assets
 
 # Move to enviroment variables in production
-COPY --from=build-stage /app/.env /app/.env
+# COPY --from=build-stage /app/.env /app/.env
 
 WORKDIR /app
 USER nonroot:nonroot

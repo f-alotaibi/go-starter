@@ -3,3 +3,37 @@ services:
       build: ./
       ports:
          - "8080:8080"
+      environment:
+         - APP_ENV=dev
+
+         # HTTP
+         - HTTP_PORT=8080
+
+         # Database
+         # Types are: mysql, sqlite, postgres
+         - DATABASE_TYPE=sqlite
+         - DATABASE_HOST=127.0.0.1
+         - DATABASE_PORT=3306
+         - DATABASE_USERNAME=user
+         - DATABASE_PASSWORD=password
+         - DATABASE_DB=database
+
+         # Authentication
+         - AUTH_SECRET=secret
+         - AUTH_JWT_COOKIE_NAME=JWT
+         - AUTH_JWT_ISSUER=myapp
+         - AUTH_XSRF_NAME=XSRF-TOKEN
+
+         # Session
+         - SESSION_SECRET=secret
+
+         # CSRF
+         - CSRF_COOKIE_NAME=csrf_cookie
+         - CSRF_KEY=csrf
+
+         # Mail
+         - MAIL_SMTP_SERVER=sandbox.smtp.mailtrap.io
+         - MAIL_SMTP_PORT=2525
+         - MAIL_SMTP_USER=415ed7b881077d
+         - MAIL_SMTP_PASS=a7b4217f61c870
+         - MAIL_RESET_PASSWORD_SENDER=noreply@example.com
